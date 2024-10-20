@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_pontos/core/components/text_app.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
 
 class CustomBottomAppBar extends StatelessWidget {
@@ -6,7 +7,6 @@ class CustomBottomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtendo a rota atual
     String? currentRoute = ModalRoute.of(context)?.settings.name;
 
     return Stack(
@@ -27,7 +27,7 @@ class CustomBottomAppBar extends StatelessWidget {
                   Navigator.of(context).pushNamed('/home');
                   break;
                 case 1:
-                  Navigator.of(context).pushNamed('/explore');
+                  Navigator.of(context).pushNamed('/explorer');
                   break;
                 case 2:
                   // Ação do botão central
@@ -50,7 +50,7 @@ class CustomBottomAppBar extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5),
               ),
               buildBottomNavItem(
-                icon: Icons.people_outline,
+                icon: Icons.search,
                 label: 'Explorar',
                 context: context,
                 currentRoute: currentRoute,
@@ -59,14 +59,14 @@ class CustomBottomAppBar extends StatelessWidget {
               buildBottomNavItem(
                   label: '', context: context, currentRoute: '', routeName: ''),
               buildBottomNavItem(
-                icon: Icons.work_outline,
+                icon: Icons.local_offer_outlined,
                 label: 'Cupons',
                 context: context,
                 currentRoute: currentRoute,
                 routeName: '/cupons',
               ),
               buildBottomNavItem(
-                icon: Icons.chat_bubble_outline,
+                icon: Icons.person_outline,
                 label: 'Perfil',
                 context: context,
                 currentRoute: currentRoute,
@@ -86,7 +86,15 @@ class CustomBottomAppBar extends StatelessWidget {
               elevation: 0,
               shape: const CircleBorder(),
               onPressed: () {
-                Navigator.of(context).pushNamed('/create');
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
+                  ),
+                  builder: (context) => buildBottomSheet(context),
+                );
               },
               backgroundColor: AppColors.blue,
               child: Icon(
@@ -98,6 +106,38 @@ class CustomBottomAppBar extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget buildBottomSheet(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: TextApp(
+              label: 'Publique uma foto',
+              color: AppColors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.camera_alt_outlined),
+            title: Text('Abrir câmera'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.photo_library_outlined),
+            title: Text('Selecionar da galeria'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
     );
   }
 

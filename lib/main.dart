@@ -9,8 +9,11 @@ import 'package:sp_pontos/features/auth/signin/presenter/pages/signin_page.dart'
 import 'package:sp_pontos/features/auth/signin/presenter/state/auth_sigin_state.dart';
 import 'package:sp_pontos/features/auth/signup/presenter/pages/signup_page.dart';
 import 'package:sp_pontos/features/auth/signup/presenter/state/auth_signup_state.dart';
+import 'package:sp_pontos/features/cupons/presenter/pages/cupons_page.dart';
 import 'package:sp_pontos/features/details_place/presenter/pages/details_page.dart';
+import 'package:sp_pontos/features/explore/presenter/page/explorer_page.dart';
 import 'package:sp_pontos/features/home/presenter/page/home_page.dart';
+import 'package:sp_pontos/features/perfil/presenter/pages/perfil_page.dart';
 import 'package:sp_pontos/firebase_options.dart';
 
 void main() async {
@@ -47,6 +50,9 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpPage(),
         '/home': (context) => HomePage(),
         '/details': (context) => DetailsPage(),
+        '/cupons': (context) => CuponsPage(),
+        '/explorer': (context) => ExplorerPage(),
+        '/perfil': (context) => PerfilPage(),
       },
       debugShowCheckedModeBanner: false,
     );
