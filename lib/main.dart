@@ -14,6 +14,7 @@ import 'package:sp_pontos/features/details_place/presenter/pages/details_page.da
 import 'package:sp_pontos/features/explore/presenter/page/explorer_page.dart';
 import 'package:sp_pontos/features/home/presenter/page/home_page.dart';
 import 'package:sp_pontos/features/perfil/presenter/pages/perfil_page.dart';
+import 'package:sp_pontos/features/upload/presenter/pages/upload_page.dart';
 import 'package:sp_pontos/firebase_options.dart';
 
 void main() async {
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/cupons': (context) => CuponsPage(),
         '/explorer': (context) => ExplorerPage(),
         '/perfil': (context) => PerfilPage(),
+        '/upload': (context) => UploadPage(),
       },
       debugShowCheckedModeBanner: false,
     );

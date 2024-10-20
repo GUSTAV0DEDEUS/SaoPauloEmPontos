@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sp_pontos/core/components/text_app.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
 
 class CustomBottomAppBar extends StatelessWidget {
-  const CustomBottomAppBar({Key? key}) : super(key: key);
+  const CustomBottomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -86,15 +87,7 @@ class CustomBottomAppBar extends StatelessWidget {
               elevation: 0,
               shape: const CircleBorder(),
               onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16)),
-                  ),
-                  builder: (context) => buildBottomSheet(context),
-                );
+                Navigator.of(context).pushNamed('/upload');
               },
               backgroundColor: AppColors.blue,
               child: Icon(
@@ -106,38 +99,6 @@ class CustomBottomAppBar extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget buildBottomSheet(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: TextApp(
-              label: 'Publique uma foto',
-              color: AppColors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.camera_alt_outlined),
-            title: Text('Abrir câmera'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.photo_library_outlined),
-            title: Text('Selecionar da galeria'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
     );
   }
 
