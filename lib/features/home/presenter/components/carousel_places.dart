@@ -1,7 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:sp_pontos/core/components/image.dart';
 import 'package:sp_pontos/core/components/text_app.dart';
 import 'package:sp_pontos/core/models/place_carrousel.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
@@ -14,7 +15,6 @@ class CarouselPlaces extends StatefulWidget {
 
 class _CarouselPlacesState extends State<CarouselPlaces> {
   int _currentIndex = 0;
-  late PageController _pageController; // Declare PageController
 
   final List<PlaceCarrousel> _places = [
     PlaceCarrousel(
@@ -38,19 +38,6 @@ class _CarouselPlacesState extends State<CarouselPlaces> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(); // Initialize PageController
-  }
-
-  @override
-  void dispose() {
-    _pageController
-        .dispose(); // Clean up the controller when the widget is disposed
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -58,24 +45,20 @@ class _CarouselPlacesState extends State<CarouselPlaces> {
           options: CarouselOptions(
             height: 250,
             viewportFraction: 1.0,
+            autoPlayAnimationDuration: Duration.zero,
+            animateToClosest: false,
             onPageChanged: (index, reason) {
               setState(() {
                 _currentIndex = index;
-                _pageController.jumpToPage(index); // Sync the PageController
               });
             },
           ),
           items: _places.map((place) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: CachedNetworkImage(
+              child: ImageComponent(
                 imageUrl: place.imageUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                placeholder: (context, url) => Center(
-                  child: CircularProgressIndicator(),
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                height: double.infinity,
               ),
             );
           }).toList(),
@@ -83,14 +66,13 @@ class _CarouselPlacesState extends State<CarouselPlaces> {
         Positioned(
           top: 11,
           left: 16,
-          child: SmoothPageIndicator(
-            controller: _pageController, // Bind the PageController here
-            count: _places.length,
-            effect: WormEffect(
-              dotWidth: 10,
-              dotHeight: 10,
-              activeDotColor: AppColors.blue,
-              dotColor: AppColors.gray,
+          child: DotsIndicator(
+            dotsCount: _places.length,
+            position: _currentIndex,
+            decorator: DotsDecorator(
+              activeColor: AppColors.blue,
+              color: AppColors.gray,
+              spacing: EdgeInsets.only(right: 12),
             ),
           ),
         ),
@@ -109,7 +91,7 @@ class _CarouselPlacesState extends State<CarouselPlaces> {
               Row(
                 children: [
                   Icon(
-                    Icons.location_on,
+                    Icons.location_on_outlined,
                     color: AppColors.white,
                     size: 16,
                   ),

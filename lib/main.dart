@@ -9,6 +9,7 @@ import 'package:sp_pontos/features/auth/signin/presenter/pages/signin_page.dart'
 import 'package:sp_pontos/features/auth/signin/presenter/state/auth_sigin_state.dart';
 import 'package:sp_pontos/features/auth/signup/presenter/pages/signup_page.dart';
 import 'package:sp_pontos/features/auth/signup/presenter/state/auth_signup_state.dart';
+import 'package:sp_pontos/features/details_place/presenter/pages/details_page.dart';
 import 'package:sp_pontos/features/home/presenter/page/home_page.dart';
 import 'package:sp_pontos/firebase_options.dart';
 
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/signin': (context) => SignInPage(),
         '/signup': (context) => SignUpPage(),
         '/home': (context) => HomePage(),
+        '/details': (context) => DetailsPage(),
       },
       debugShowCheckedModeBanner: false,
     );

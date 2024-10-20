@@ -1,19 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:sp_pontos/core/components/text_app.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
 
-class PlaceCard extends StatelessWidget {
-  final String title;
+class CouponCard extends StatelessWidget {
   final String imageUrl;
-  final String rating;
-  final String location;
+  final String title;
 
-  PlaceCard({
-    required this.title,
+  const CouponCard({
+    super.key,
     required this.imageUrl,
-    required this.rating,
-    required this.location,
+    required this.title,
   });
 
   @override
@@ -57,7 +54,7 @@ class PlaceCard extends StatelessWidget {
                     children: [
                       Icon(Icons.star, color: Colors.yellow, size: 16),
                       SizedBox(width: 4),
-                      Text(rating),
+                      Text('4.8'),
                     ],
                   ),
                 ],
