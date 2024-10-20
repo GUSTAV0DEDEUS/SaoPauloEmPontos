@@ -1,36 +1,84 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sp_pontos/core/components/custom_bottom_appbar.dart';
 import 'package:sp_pontos/core/components/image.dart';
+import 'package:sp_pontos/core/providers/photo_provider.dart';
 import 'package:sp_pontos/features/explore/presenter/components/actions.dart';
 import 'package:sp_pontos/features/explore/presenter/components/infos_photo.dart';
-import 'package:sp_pontos/features/explore/presenter/components/profile_component.dart';
 
-class ExplorerPage extends StatelessWidget {
-  const ExplorerPage({super.key});
+class ExplorerPage extends StatefulWidget {
+  const ExplorerPage({Key? key}) : super(key: key);
+
+  @override
+  _ExplorerPageState createState() => _ExplorerPageState();
+}
+
+class _ExplorerPageState extends State<ExplorerPage> {
+  @override
+  void initState() {
+    super.initState();
+    _fetchPhotos();
+  }
+
+  void _fetchPhotos() async {
+    await Provider.of<PhotoProvider>(context, listen: false).fetchPhotos();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          ImageComponent(
-            imageUrl:
-                'https://www.saopauloinfoco.com.br/wp-content/uploads/2013/03/Parque-do-Ibirapuera_Cidade-de-S%C3%A3o-Paulo.jpg',
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 40,
-            left: 9,
-            child: ProfileComponent(
-              imageUrl: "assets/images/avatar.jpeg",
-              name: "Gustavo",
-            ),
-          ),
-          Positioned(bottom: 20, left: 9, child: InfosPhoto()),
-          Positioned(right: 20, bottom: 50, child: ActionsComponent()),
-        ],
-      ),
-      bottomNavigationBar: CustomBottomAppBar(),
+    return Consumer<PhotoProvider>(
+      builder: (context, photoProvider, child) {
+        return Scaffold(
+          body: photoProvider.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : photoProvider.photos.isEmpty
+                  ? const Center(child: Text('Nenhuma foto encontrada.'))
+                  : PageView.builder(
+                      itemCount: photoProvider.photos.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        final photo = photoProvider.photos[index];
+                        return Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          color: Colors
+                              .black, // Fundo preto para evitar transparência
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              ImageComponent(
+                                imageUrl: photo.photoUrl,
+                                height: double.infinity,
+                              ),
+                              Positioned(
+                                bottom: 70,
+                                left: 20,
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  color: Colors.black.withOpacity(0.5),
+                                  child: InfosPhoto(
+                                    title: photo.location ??
+                                        'Localização desconhecida',
+                                    date: photo.date,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                right: 20,
+                                bottom: 70,
+                                child: ActionsComponent(
+                                  photoId: photo.photoId,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+          extendBody: true,
+          bottomNavigationBar: const CustomBottomAppBar(),
+        );
+      },
     );
   }
 }

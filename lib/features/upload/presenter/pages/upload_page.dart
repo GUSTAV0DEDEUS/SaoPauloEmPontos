@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart' as path;
+import 'package:provider/provider.dart';
+import 'package:sp_pontos/core/providers/tourist_attraction_provider.dart';
+import 'package:sp_pontos/core/services/upload_service.dart';
 
 class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
@@ -15,12 +16,19 @@ class _UploadPageState extends State<UploadPage> {
   String? _selectedLocation;
   bool _isLoading = false;
   File? _imageFile;
+  final UploadService _uploadService = UploadService();
 
-  // Simulação de locais disponíveis
-  List<String> _locations = ['Local 1', 'Local 2', 'Local 3'];
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<TouristAttractionProvider>(context, listen: false)
+        .fetchTouristAttractions();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final attractionProvider = Provider.of<TouristAttractionProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Seleção de Imagem'),
@@ -30,7 +38,6 @@ class _UploadPageState extends State<UploadPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Verifica se a imagem foi selecionada e exibe a imagem
             _imageFile != null
                 ? Expanded(
                     child: Image.file(
@@ -47,37 +54,36 @@ class _UploadPageState extends State<UploadPage> {
                     ),
                   ),
             const SizedBox(height: 16),
-            // Dropdown para selecionar o local
-            DropdownButtonFormField<String>(
-              value: _selectedLocation,
-              hint: const Text('Selecione o Local'),
-              items: _locations.map((String location) {
-                return DropdownMenuItem<String>(
-                  value: location,
-                  child: Text(location),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedLocation = newValue;
-                });
-              },
-            ),
+
+            // Dropdown to show locations
+            attractionProvider.isLoading
+                ? CircularProgressIndicator()
+                : DropdownButtonFormField<String>(
+                    value: _selectedLocation,
+                    hint: const Text('Selecione o Local'),
+                    items: attractionProvider.places.map((place) {
+                      return DropdownMenuItem<String>(
+                        value: place.id,
+                        child: Text(
+                          place.name,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedLocation = newValue;
+                      });
+                    },
+                  ),
             const SizedBox(height: 16),
-            // Botão para selecionar imagem
             ElevatedButton(
               onPressed: () => showModalBottomSheet(
                 context: context,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                ),
                 builder: (context) => buildBottomSheet(context),
               ),
               child: const Text('Selecionar Imagem'),
             ),
             const SizedBox(height: 16),
-            // Botão para concluir a ação
             ElevatedButton(
               onPressed:
                   _imageFile != null && _selectedLocation != null && !_isLoading
@@ -93,40 +99,22 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
-  // Função para fazer o upload da imagem
   Future<void> _uploadImage(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
 
     try {
-      // Nome único para o arquivo no Storage
-      final fileName = path.basename(_imageFile!.path);
-      final storageRef =
-          FirebaseStorage.instance.ref().child('uploads/$fileName');
-
-      // Enviar o arquivo para o Firebase Storage
-      await storageRef.putFile(_imageFile!);
-
-      // Obter o URL da imagem após o upload
-      final imageUrl = await storageRef.getDownloadURL();
-
-      // Simulação de atualização do perfil do usuário com o local e a imagem
-      print('Imagem carregada com sucesso: $imageUrl');
-      print('Local selecionado: $_selectedLocation');
-
-      // Aqui você pode associar o `imageUrl` e o `local` ao perfil do usuário no seu banco de dados
+      final imageUrl = await _uploadService.uploadImage(_imageFile!);
+      await _uploadService.savePhotoDetails(imageUrl, _selectedLocation!);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Imagem enviada com sucesso!')),
       );
-
-      // Voltar para a tela anterior
       Navigator.of(context).pop();
     } catch (e) {
-      print('Erro ao enviar a imagem: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erro ao enviar a imagem')),
+        SnackBar(content: Text(e.toString())),
       );
     } finally {
       setState(() {
@@ -135,65 +123,38 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
-  // Função para selecionar imagem (câmera ou galeria)
   Future<void> pickImage(ImageSource source, BuildContext context) async {
-    try {
-      final ImagePicker picker = ImagePicker();
-      final XFile? image = await picker.pickImage(source: source);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: source);
 
-      if (image != null) {
-        setState(() {
-          _imageFile = File(image.path);
-        });
-
-        // Imprimindo o caminho da imagem
-        print('Caminho da imagem selecionada: ${image.path}');
-      } else {
-        // Lidar com o caso onde nenhuma imagem foi selecionada
-        print('Nenhuma imagem foi selecionada');
-      }
-    } catch (e) {
-      print('Erro ao selecionar a imagem: $e');
+    if (image != null) {
+      setState(() {
+        _imageFile = File(image.path);
+      });
     }
   }
 
-  // BottomSheet para selecionar imagem da câmera ou galeria
   Widget buildBottomSheet(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: Text(
-              'Publique uma foto',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.camera_alt_outlined),
-            title: const Text('Abrir câmera'),
-            onTap: () {
-              Navigator.pop(context);
-              pickImage(ImageSource.camera, context);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.photo_library_outlined),
-            title: const Text('Selecionar da galeria'),
-            onTap: () {
-              Navigator.pop(context);
-              pickImage(
-                ImageSource.gallery,
-                context,
-              );
-            },
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          leading: Icon(Icons.camera_alt_outlined),
+          title: const Text('Abrir câmera'),
+          onTap: () {
+            Navigator.pop(context);
+            pickImage(ImageSource.camera, context);
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.photo_library_outlined),
+          title: const Text('Selecionar da galeria'),
+          onTap: () {
+            Navigator.pop(context);
+            pickImage(ImageSource.gallery, context);
+          },
+        ),
+      ],
     );
   }
 }

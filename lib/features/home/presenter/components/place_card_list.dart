@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sp_pontos/core/providers/tourist_attraction_provider.dart';
 import 'package:sp_pontos/features/home/presenter/components/place_card.dart';
 
 class PlaceCardList extends StatelessWidget {
-  final List<Map<String, String>> places;
-
-  const PlaceCardList({super.key, required this.places});
+  const PlaceCardList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TouristAttractionProvider>(context);
+    final places = provider.places;
+
+    if (provider.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return GridView.builder(
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -22,10 +29,10 @@ class PlaceCardList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return PlaceCard(
-          title: places[index]['title']!,
-          imageUrl: places[index]['imageUrl']!,
-          rating: places[index]['rating']!,
-          location: places[index]['location']!,
+          title: places[index].name,
+          imageUrl: places[index].imageUrl,
+          rating: '4.9 (112)',
+          location: places[index].location,
         );
       },
     );

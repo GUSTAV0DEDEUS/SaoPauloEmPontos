@@ -5,37 +5,7 @@ import 'package:sp_pontos/features/home/presenter/components/carousel_places.dar
 import 'package:sp_pontos/features/home/presenter/components/place_card_list.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
-  final List<Map<String, String>> places = [
-    {
-      'title': 'Prambanan Temple',
-      'imageUrl':
-          "https://litoralempauta.com.br/wp-content/uploads/2024/01/shutterstock_1474895630-scaled.jpg",
-      'rating': '4.9 (112)',
-      'location': 'Cidade de São Paulo - SP',
-    },
-    {
-      'title': 'Borobudur Temple',
-      'imageUrl':
-          'https://litoralempauta.com.br/wp-content/uploads/2024/01/shutterstock_1474895630-scaled.jpg',
-      'rating': '4.9 (112)',
-      'location': 'Cidade de São Paulo - SP',
-    },
-    {
-      'title': 'Borobudur Temple',
-      'imageUrl':
-          'https://litoralempauta.com.br/wp-content/uploads/2024/01/shutterstock_1474895630-scaled.jpg',
-      'rating': '4.9 (112)',
-      'location': 'Cidade de São Paulo - SP',
-    },
-    {
-      'title': 'Borobudur Temple',
-      'imageUrl':
-          'https://litoralempauta.com.br/wp-content/uploads/2024/01/shutterstock_1474895630-scaled.jpg',
-      'rating': '4.9 (112)',
-      'location': 'Cidade de São Paulo - SP',
-    },
-  ];
+  const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +48,7 @@ class HomePage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: PlaceCardList(places: places),
+              child: PlaceCardList(),
             ),
           ],
         ),

@@ -55,7 +55,7 @@ class CustomBottomAppBar extends StatelessWidget {
                 label: 'Explorar',
                 context: context,
                 currentRoute: currentRoute,
-                routeName: '/explore',
+                routeName: '/explorer',
               ),
               buildBottomNavItem(
                   label: '', context: context, currentRoute: '', routeName: ''),

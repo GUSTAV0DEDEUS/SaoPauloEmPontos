@@ -49,6 +49,7 @@ dependencies:
   dotted_border: ^2.1.0
   image_picker: ^1.1.2
   firebase_storage: ^12.3.3
+  path: ^1.9.0
 
 
 dev_dependencies:

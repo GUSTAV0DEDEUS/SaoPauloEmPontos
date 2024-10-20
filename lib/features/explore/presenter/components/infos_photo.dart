@@ -5,7 +5,9 @@ import 'package:sp_pontos/core/components/text_app.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
 
 class InfosPhoto extends StatelessWidget {
-  const InfosPhoto({super.key});
+  final String title;
+  final String date;
+  const InfosPhoto({super.key, required this.title, required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class InfosPhoto extends StatelessWidget {
                 ),
                 SizedBox(width: 4),
                 TextApp(
-                  label: 'São Paulo',
+                  label: title,
                   fontSize: 16,
                   color: AppColors.white,
                 ),
@@ -81,7 +83,7 @@ class InfosPhoto extends StatelessWidget {
                 ),
                 SizedBox(width: 4),
                 TextApp(
-                  label: '27 de Novembro',
+                  label: date,
                   fontSize: 16,
                   color: AppColors.white,
                 ),
