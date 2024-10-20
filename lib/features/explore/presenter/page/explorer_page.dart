@@ -34,6 +34,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
               : photoProvider.photos.isEmpty
                   ? const Center(child: Text('Nenhuma foto encontrada.'))
                   : PageView.builder(
+                    clipBehavior:Clip.antiAlias,
                       itemCount: photoProvider.photos.length,
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) {
@@ -51,21 +52,20 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                 height: double.infinity,
                               ),
                               Positioned(
-                                bottom: 70,
+                                bottom: 40,
                                 left: 20,
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  color: Colors.black.withOpacity(0.5),
-                                  child: InfosPhoto(
+                                child: 
+                                  InfosPhoto(
                                     title: photo.location ??
                                         'Localização desconhecida',
-                                    date: photo.date,
-                                  ),
+                                    
                                 ),
                               ),
                               Positioned(
+                                width: 60,
+                                height: 60,
                                 right: 20,
-                                bottom: 70,
+                                bottom: 100,
                                 child: ActionsComponent(
                                   photoId: photo.photoId,
                                 ),
@@ -75,7 +75,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         );
                       },
                     ),
-          extendBody: true,
+          extendBody: false,
           bottomNavigationBar: const CustomBottomAppBar(),
         );
       },

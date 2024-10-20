@@ -23,7 +23,7 @@ class _CarouselPlacesState extends State<CarouselPlaces> {
     // Use WidgetsBinding para garantir que a função seja chamada após a fase de build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<TouristAttractionProvider>(context, listen: false)
-          .fetchTouristAttractions();
+          .fetchTouristAttractionsLimit();
     });
   }
 

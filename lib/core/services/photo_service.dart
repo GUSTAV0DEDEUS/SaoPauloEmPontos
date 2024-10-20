@@ -1,7 +1,6 @@
 // lib/core/services/photo_service.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sp_pontos/core/models/photo.dart';
 
 class PhotoService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -78,6 +77,32 @@ class PhotoService {
     } catch (e) {
       print('Erro ao buscar localização: $e');
       return 'Localização desconhecida';
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchUserPhotos() async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('photos')
+          .where('userId', isEqualTo: currentUserId)
+          .get();
+
+      List<Map<String, dynamic>> userPhotos = snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        data['photoId'] = doc.id; // Add document ID to the data
+        return data;
+      }).toList();
+
+      // Fetch the locations for each photo
+      for (var photo in userPhotos) {
+        String location = await fetchLocation(photo['touristAttractionsId']);
+        photo['location'] = location;
+      }
+
+      return userPhotos;
+    } catch (e) {
+      print('Erro ao buscar fotos do usuário: $e');
+      return [];
     }
   }
 }

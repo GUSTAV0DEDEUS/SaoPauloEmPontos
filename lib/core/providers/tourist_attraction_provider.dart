@@ -7,6 +7,7 @@ class TouristAttractionProvider with ChangeNotifier {
   bool _isLoading = false;
 
   List<PlaceCarrousel> get places => _places;
+
   bool get isLoading => _isLoading;
 
   final TouristAttractionService _service = TouristAttractionService();
@@ -17,6 +18,19 @@ class TouristAttractionProvider with ChangeNotifier {
 
     try {
       _places = await _service.fetchTouristAttractions();
+    } catch (e) {
+      print('Error fetching tourist attractions: $e');
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+  Future<void> fetchTouristAttractionsLimit() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      _places = await _service.fetchTouristAttractionsLimit();
     } catch (e) {
       print('Error fetching tourist attractions: $e');
     }

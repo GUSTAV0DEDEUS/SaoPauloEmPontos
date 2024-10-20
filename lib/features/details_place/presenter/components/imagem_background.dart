@@ -5,7 +5,16 @@ import 'package:sp_pontos/core/components/image.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
 
 class ImagemBackground extends StatelessWidget {
-  const ImagemBackground({super.key});
+  final String title;
+  final String imageUrl;
+  final String location;
+
+  const ImagemBackground({
+    Key? key,
+    required this.title,
+    required this.imageUrl,
+    required this.location,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +26,7 @@ class ImagemBackground extends StatelessWidget {
             bottomRight: Radius.circular(60),
           ),
           child: ImageComponent(
-            imageUrl:
-                'https://ensaiofotografico.net.br/wp-content/uploads/2023/02/ensaio-fotografico-masculino-parque-do-ibirapuera.jpg',
+            imageUrl: imageUrl,
             height: 400,
           ),
         ),
@@ -29,7 +37,7 @@ class ImagemBackground extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Parque Ibirapuera',
+                title,
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -45,7 +53,7 @@ class ImagemBackground extends StatelessWidget {
                   ),
                   SizedBox(width: 4),
                   Text(
-                    'Cidade de São Paulo - SP',
+                    location,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white70,
@@ -72,9 +80,7 @@ class ImagemBackground extends StatelessWidget {
                 borderRadius: BorderRadius.circular(999),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  999,
-                ),
+                borderRadius: BorderRadius.circular(999),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(
                     sigmaX: 12,

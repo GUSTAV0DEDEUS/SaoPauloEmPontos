@@ -6,8 +6,7 @@ import 'package:sp_pontos/core/styles/app_colors.dart';
 
 class InfosPhoto extends StatelessWidget {
   final String title;
-  final String date;
-  const InfosPhoto({super.key, required this.title, required this.date});
+  const InfosPhoto({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -73,22 +72,7 @@ class InfosPhoto extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 15),
-            Row(
-              children: [
-                Icon(
-                  Icons.calendar_today_outlined,
-                  color: AppColors.white,
-                  size: 16,
-                ),
-                SizedBox(width: 4),
-                TextApp(
-                  label: date,
-                  fontSize: 16,
-                  color: AppColors.white,
-                ),
-              ],
-            ),
+
           ],
         ),
       ],

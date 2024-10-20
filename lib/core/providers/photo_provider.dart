@@ -16,29 +16,32 @@ class PhotoProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future<void> fetchPhotos() async {
-    _isLoading = true;
-    notifyListeners();
+  _isLoading = true;
+  // Notify listeners before the async operation starts
+  notifyListeners(); 
 
-    try {
-      final fetchedPhotos = await _photoService.fetchPhotos();
-      _photos = fetchedPhotos.map((photoData) {
-        return Photo(
-          photoId: photoData['photoId'] ?? '',
-          photoUrl: photoData['photoUrl'] ?? '',
-          userId: photoData['userId'] ?? '',
-          touristAttractionsId: photoData['touristAttractionsId'] ?? '',
-          location: photoData['location'] ?? 'Localização desconhecida',
-          date: photoData['date'] ?? '',
-          likedBy: List<String>.from(photoData['likes'] ?? []),
-        );
-      }).toList();
-    } catch (e) {
-      print('Erro ao buscar fotos: $e');
-    }
-
+  try {
+    final fetchedPhotos = await _photoService.fetchPhotos();
+    _photos = fetchedPhotos.map((photoData) {
+      return Photo(
+        photoId: photoData['photoId'] ?? '',
+        photoUrl: photoData['photoUrl'] ?? '',
+        userId: photoData['userId'] ?? '',
+        touristAttractionsId: photoData['touristAttractionsId'] ?? '',
+        location: photoData['location'] ?? 'Localização desconhecida',
+        date: photoData['date'] ?? '',
+        likedBy: List<String>.from(photoData['likes'] ?? []),
+      );
+    }).toList();
+  } catch (e) {
+    print('Erro ao buscar fotos: $e');
+  } finally {
     _isLoading = false;
+    // Notify listeners after the async operation completes
     notifyListeners();
   }
+}
+
 
   Future<void> toggleLike(String photoId) async {
     final photoIndex = _photos.indexWhere((photo) => photo.photoId == photoId);

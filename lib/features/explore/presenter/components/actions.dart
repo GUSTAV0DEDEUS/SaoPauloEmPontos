@@ -17,9 +17,7 @@ class _ActionsComponentState extends State<ActionsComponent> {
   @override
   Widget build(BuildContext context) {
     final photoProvider = Provider.of<PhotoProvider>(context);
-    final authRepo = Provider.of<AuthRepository>(context)
-        .currentUser!
-        .uid; // Obter AuthRepository
+   
 
     return FutureBuilder<bool>(
       future: photoProvider.userLiked(widget.photoId), // Passar userId

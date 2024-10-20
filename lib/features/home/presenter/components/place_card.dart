@@ -8,18 +8,31 @@ class PlaceCard extends StatelessWidget {
   final String imageUrl;
   final String rating;
   final String location;
+  final String description;
+  final String id;
 
   PlaceCard({
     required this.title,
     required this.imageUrl,
     required this.rating,
-    required this.location,
+    required this.location, 
+    required this.description,
+    required this.id,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/details'),
+      onTap: () {
+        Navigator.pushNamed(context, '/details', arguments: {
+          'title': title,
+          'imageUrl': imageUrl,
+          'rating': rating,
+          'location': location,
+          'description': description,
+          "idTouristic": id,
+        });
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
