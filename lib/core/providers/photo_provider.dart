@@ -32,10 +32,6 @@ class PhotoProvider with ChangeNotifier {
           likedBy: List<String>.from(photoData['likes'] ?? []),
         );
       }).toList();
-
-      // Filtrar fotos do usuário atual
-      _photos =
-          _photos.where((photo) => photo.userId != currentUserId).toList();
     } catch (e) {
       print('Erro ao buscar fotos: $e');
     }
