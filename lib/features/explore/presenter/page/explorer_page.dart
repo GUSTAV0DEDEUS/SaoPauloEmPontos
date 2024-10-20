@@ -65,7 +65,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                 width: 60,
                                 height: 60,
                                 right: 20,
-                                bottom: 100,
+                                bottom: 140,
                                 child: ActionsComponent(
                                   photoId: photo.photoId,
                                 ),

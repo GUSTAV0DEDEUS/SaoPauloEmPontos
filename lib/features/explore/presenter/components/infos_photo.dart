@@ -14,7 +14,7 @@ class InfosPhoto extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextApp(
-          label: 'Praia de Copacabana',
+          label: title,
           fontSize: 24,
           fontWeight: FontWeight.bold,
           color: AppColors.white,
@@ -55,26 +55,26 @@ class InfosPhoto extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8),
-        Row(
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.location_on_outlined,
-                  color: AppColors.white,
-                  size: 16,
-                ),
-                SizedBox(width: 4),
-                TextApp(
-                  label: title,
-                  fontSize: 16,
-                  color: AppColors.white,
-                ),
-              ],
-            ),
+        // Row(
+        //   children: [
+        //     Row(
+        //       children: [
+        //         Icon(
+        //           Icons.location_on_outlined,
+        //           color: AppColors.white,
+        //           size: 16,
+        //         ),
+        //         SizedBox(width: 4),
+        //         TextApp(
+        //           label: title,
+        //           fontSize: 16,
+        //           color: AppColors.white,
+        //         ),
+        //       ],
+        //     ),
 
-          ],
-        ),
+        //   ],
+        // ),
       ],
     );
   }
