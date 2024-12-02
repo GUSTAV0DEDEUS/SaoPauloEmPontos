@@ -35,7 +35,7 @@ class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
     final couponProvider = Provider.of<CouponProvider>(context);
-    
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -79,7 +79,8 @@ class _PerfilPageState extends State<PerfilPage> {
                       ? Center(child: CircularProgressIndicator())
                       : GridView.builder(
                           padding: EdgeInsets.all(10),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
@@ -94,7 +95,8 @@ class _PerfilPageState extends State<PerfilPage> {
                                       ? photo['likes'].length
                                       : 0)
                                   .toString(), // Safely access length
-                              location: photo['location'] ?? 'Localização desconhecida',
+                              location: photo['location'] ??
+                                  'Localização desconhecida',
                             );
                           },
                           itemCount: _userPhotos.length,
@@ -103,7 +105,8 @@ class _PerfilPageState extends State<PerfilPage> {
                       ? Center(child: CircularProgressIndicator())
                       : GridView.builder(
                           padding: EdgeInsets.all(10),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
@@ -116,13 +119,15 @@ class _PerfilPageState extends State<PerfilPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.network(
-                                    coupon.imageUrl, // Assuming CouponModel has an imageUrl field
+                                    coupon
+                                        .imageUrl, // Assuming CouponModel has an imageUrl field
                                     height: 100,
                                     fit: BoxFit.cover,
                                   ),
                                   SizedBox(height: 10),
                                   Text(
                                     coupon.title,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -132,7 +137,11 @@ class _PerfilPageState extends State<PerfilPage> {
                                   Text(
                                     'Resgate: ${couponProvider.isCouponUsedByCurrentUser(coupon.id) ? "Usado" : "Disponível"}',
                                     style: TextStyle(
-                                      color: couponProvider.isCouponUsedByCurrentUser(coupon.id) ? Colors.red : Colors.green,
+                                      color: couponProvider
+                                              .isCouponUsedByCurrentUser(
+                                                  coupon.id)
+                                          ? Colors.red
+                                          : Colors.green,
                                     ),
                                   ),
                                 ],

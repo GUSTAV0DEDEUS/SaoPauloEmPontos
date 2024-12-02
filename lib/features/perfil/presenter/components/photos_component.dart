@@ -47,12 +47,13 @@ class PhotosComponent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       TextApp(
                         label: location,
+                        overflow: TextOverflow.ellipsis,
                         fontWeight: FontWeight.normal,
                         color: AppColors.black,
                       ),
