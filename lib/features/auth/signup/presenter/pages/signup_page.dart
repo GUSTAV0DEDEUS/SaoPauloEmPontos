@@ -6,7 +6,6 @@ import 'package:sp_pontos/core/components/text_field_form.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
 import 'package:sp_pontos/core/styles/app_font_size.dart';
 import 'package:sp_pontos/core/utils/constant/validators.dart';
-import 'package:sp_pontos/features/auth/signin/presenter/pages/signin_page.dart';
 import 'package:sp_pontos/features/auth/signup/presenter/state/auth_signup_state.dart';
 
 class SignUpPage extends StatefulWidget {

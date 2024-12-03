@@ -1,38 +1,22 @@
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:sp_pontos/core/components/text_app.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
 
-class PlaceCard extends StatelessWidget {
-  final String title;
+class CouponCard extends StatelessWidget {
   final String imageUrl;
-  final String rating;
-  final String location;
-  final String description;
-  final String id;
+  final String title;
 
-  PlaceCard({
-    required this.title,
+  const CouponCard({
+    super.key,
     required this.imageUrl,
-    required this.rating,
-    required this.location, 
-    required this.description,
-    required this.id,
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/details', arguments: {
-          'title': title,
-          'imageUrl': imageUrl,
-          'rating': rating,
-          'location': location,
-          'description': description,
-          "idTouristic": id,
-        });
-      },
+      onTap: () => Navigator.pushNamed(context, '/details'),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -70,7 +54,7 @@ class PlaceCard extends StatelessWidget {
                     children: [
                       Icon(Icons.star, color: Colors.yellow, size: 16),
                       SizedBox(width: 4),
-                      Text(rating),
+                      Text('4.8'),
                     ],
                   ),
                 ],

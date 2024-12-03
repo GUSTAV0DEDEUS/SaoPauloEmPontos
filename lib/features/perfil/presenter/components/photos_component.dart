@@ -3,36 +3,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sp_pontos/core/components/text_app.dart';
 import 'package:sp_pontos/core/styles/app_colors.dart';
 
-class PlaceCard extends StatelessWidget {
-  final String title;
+class PhotosComponent extends StatelessWidget {
   final String imageUrl;
-  final String rating;
+  final String liked;
   final String location;
-  final String description;
-  final String id;
 
-  PlaceCard({
-    required this.title,
+  const PhotosComponent({
+    super.key,
     required this.imageUrl,
-    required this.rating,
-    required this.location, 
-    required this.description,
-    required this.id,
+    required this.liked,
+    required this.location,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/details', arguments: {
-          'title': title,
-          'imageUrl': imageUrl,
-          'rating': rating,
-          'location': location,
-          'description': description,
-          "idTouristic": id,
-        });
-      },
+      onTap: () => Navigator.pushNamed(context, '/details'),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -59,18 +45,31 @@ class PlaceCard extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextApp(
-                    label: title,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.black,
-                  ),
-                  SizedBox(height: 5),
-                  Row(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(Icons.star, color: Colors.yellow, size: 16),
-                      SizedBox(width: 4),
-                      Text(rating),
+                      TextApp(
+                        label: location,
+                        overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.normal,
+                        color: AppColors.black,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.favorite, color: AppColors.red, size: 16),
+                          SizedBox(width: 4),
+                          TextApp(
+                            color: AppColors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            label: liked,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ],

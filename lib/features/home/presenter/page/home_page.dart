@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:sp_pontos/core/components/custom_bottom_appbar.dart';
+import 'package:sp_pontos/core/styles/app_colors.dart';
 import 'package:sp_pontos/features/home/presenter/components/carousel_places.dart';
-import 'package:sp_pontos/features/home/presenter/components/place_card.dart';
+import 'package:sp_pontos/features/home/presenter/components/place_card_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.lightGray,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: TextField(
-          decoration: InputDecoration(
-            hintText: 'Buscar pontos em sampa...',
-            prefixIcon: Icon(Icons.search),
-            filled: true,
-            fillColor: Colors.grey[200],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide.none,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 80,
+        title: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Buscar pontos em sampa...',
+              prefixIcon: Icon(Icons.search),
+              filled: true,
+              fillColor: Colors.grey[200],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide.none,
+              ),
             ),
           ),
         ),
@@ -41,54 +48,12 @@ class HomePage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: PlaceCard(
-                      title: 'Prambanan Temple',
-                      imageUrl:
-                          "https://litoralempauta.com.br/wp-content/uploads/2024/01/shutterstock_1474895630-scaled.jpg",
-                      rating: '4.9 (112)',
-                      location: 'Cidade de São Paulo - SP',
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: PlaceCard(
-                      title: 'Borobudur Temple',
-                      imageUrl:
-                          'https://litoralempauta.com.br/wp-content/uploads/2024/01/shutterstock_1474895630-scaled.jpg',
-                      rating: '4.9 (112)',
-                      location: 'Cidade de São Paulo - SP',
-                    ),
-                  ),
-                ],
-              ),
+              child: PlaceCardList(),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Início',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explorar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt),
-            label: 'Cupons',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
-      ),
+      bottomNavigationBar: CustomBottomAppBar(),
     );
   }
 }
